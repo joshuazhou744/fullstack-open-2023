@@ -1,5 +1,5 @@
 # fullstack-open-2023
 
-FullStack Open 2023 Course Exercises
+FullStack Open Course Exercises 2023
 
 Joshua Zhou
