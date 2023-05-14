@@ -7,8 +7,11 @@ const App = () => {
   const [bad, setBad] = useState(0)
 
   const all = good + neutral + bad
-  const avg = (good - bad)/all
-  const posPercent = `${(good/all) * 100} %`
+  let avg = (good - bad)/all
+  avg = avg.toFixed(2)
+  let pos = (good/all) * 100
+  pos = pos.toFixed(2)
+  let posPercent = `${pos} %`
   const header = 'give feedback'
   const stats = 'statistics'
 
@@ -51,23 +54,26 @@ const Stats = (props) => {
     )
   } else {
     return (
-      <div>
-        <Statline text='good' content={props.good} />
-        <Statline text='neutral' content={props.neutral} />
-        <Statline text='bad' content={props.bad} />
-        <Statline text='all' content={props.all} />
-        <Statline text='average' content={props.avg} />
-        <Statline text='positive' content={props.posPercent} />
-      </div>
+      <table>
+        <tbody>
+          <Statline text='good' content={props.good} />
+          <Statline text='neutral' content={props.neutral} />
+          <Statline text='bad' content={props.bad} />
+          <Statline text='all' content={props.all} />
+          <Statline text='average' content={props.avg} />
+          <Statline text='positive' content={props.posPercent} />
+        </tbody>
+      </table>
     )
   }
 }
 
 const Statline = (props) => {
   return (
-    <div>
-      {props.text} {props.content}
-    </div>
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.content}</td>
+    </tr>
   )
 }
 
