@@ -43,14 +43,30 @@ const Title = (props) => {
 }
 
 const Stats = (props) => {
+  if (props.all === 0) {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <Statline text='good' content={props.good} />
+        <Statline text='neutral' content={props.neutral} />
+        <Statline text='bad' content={props.bad} />
+        <Statline text='all' content={props.all} />
+        <Statline text='average' content={props.avg} />
+        <Statline text='positive' content={props.posPercent} />
+      </div>
+    )
+  }
+}
+
+const Statline = (props) => {
   return (
     <div>
-      good {props.good}<br></br>
-      neutral {props.neutral}<br></br>
-      bad {props.bad}<br></br>
-      all {props.all}<br></br>
-      avg {props.avg} <br></br>
-      positive {props.posPercent} <br></br>
+      {props.text} {props.content}
     </div>
   )
 }
