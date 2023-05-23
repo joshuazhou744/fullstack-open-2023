@@ -29,6 +29,8 @@ const App = () => {
   return <Course course={course} />
 }
 
+/* */
+
 const Course = ({ course }) => {
   const parts = course.parts
   const totalObj = parts.map(parts => parts.exercises)
