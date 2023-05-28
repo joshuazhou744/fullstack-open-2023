@@ -11,11 +11,15 @@ const App = () => {
   const handleAddName = e => {
     e.preventDefault()
 
-    const newPerson = { name: newName }
+    if (persons.find(person => person.name === newName)) {
+      alert(`${newName} already exists`)
+    } else {
+      const newPerson = { name: newName }
 
-    setPersons(persons.concat(newPerson))
+      setPersons(persons.concat(newPerson))
 
-    setNewName('')
+      setNewName('')
+    }
   }
 
   return (
