@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personService from './services/person'
 import axios from 'axios'
 
 
@@ -12,11 +13,10 @@ const App = () => {
   const [filterQuery, setFilterQuery] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log(response.data)
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialResult => {
+        setPersons(initialResult)
       }).catch((err) => {
         console.log(err)
       })
@@ -32,10 +32,10 @@ const App = () => {
     } else {
       const newPerson = { name: newName, number: newNum }
 
-      axios
-        .post('http://localhost:3001/persons', newPerson)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      personService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
         })
         .catch(err => {
           console.log(err)
@@ -46,7 +46,6 @@ const App = () => {
     }
   }
 
-  console.log(persons)
 
   return (
     <div>
