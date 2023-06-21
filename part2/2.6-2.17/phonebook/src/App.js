@@ -46,6 +46,17 @@ const App = () => {
     }
   }
 
+  const handleDelete = id => {
+    personService
+      .getDeletePerson(id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
 
   return (
     <div>
@@ -59,7 +70,7 @@ const App = () => {
       
       <h2>Numbers</h2>
       
-      <Persons persons={persons} query={filterQuery}/>
+      <Persons persons={persons} query={filterQuery} handleDelete={handleDelete}/>
 
     </div>
 
