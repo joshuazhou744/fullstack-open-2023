@@ -15,7 +15,10 @@ const App = () => {
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
+        console.log(response.data)
         setPersons(response.data)
+      }).catch((err) => {
+        console.log(err)
       })
   }, [])
 
@@ -29,13 +32,21 @@ const App = () => {
     } else {
       const newPerson = { name: newName, number: newNum }
 
-      setPersons(persons.concat(newPerson))
+      axios
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+        })
+        .catch(err => {
+          console.log(err)
+        })
 
       setNewName('')
       setNewNum('')
     }
   }
 
+  console.log(persons)
 
   return (
     <div>
