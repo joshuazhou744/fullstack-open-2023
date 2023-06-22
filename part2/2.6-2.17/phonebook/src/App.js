@@ -4,6 +4,7 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/person'
 import axios from 'axios'
+import './index.css'
 
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState('')
   const [filterQuery, setFilterQuery] = useState('')
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     personService
@@ -36,6 +38,7 @@ const App = () => {
         .create(newPerson)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setNotification(`Added ${newPerson.name}`)
         })
         .catch(err => {
           console.log(err)
@@ -57,10 +60,23 @@ const App = () => {
       })
   }
 
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className='error'>
+        {message}
+      </div>
+    )
+  }
 
   return (
     <div>
       <h1>Phonebook</h1>
+
+      <Notification message={notification} />
 
       <Filter query={filterQuery} handleChange={handleChange(setFilterQuery)}/>
 
