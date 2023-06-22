@@ -5,6 +5,7 @@ import Persons from './components/Persons'
 import personService from './services/person'
 import axios from 'axios'
 import './index.css'
+import personServices from './services/person'
 
 
 const App = () => {
@@ -24,13 +25,33 @@ const App = () => {
       })
   }, [])
 
+  const newPerson = { name: newName, number: newNum }
+
   const handleChange = setValue => e => setValue(e.target.value)
 
   const handleAddContact = e => {
     e.preventDefault()
+    const newPerson = { name: newName, number: newNum }
+    const checkName = persons.find(props => props.name.toLowerCase() === newPerson.name.toLowerCase())
+    const changedPerson = { ...checkName, number:newNum}
 
-    if (persons.find(person => person.name === newName)) {
-      alert(`${newName} already exists`)
+    if (checkName && checkName.number !== newPerson.number) {
+
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with new one?`)) {
+        personServices
+          .updatePerson(checkName.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(n => n.id !== checkName.id? n : returnedPerson))
+            setNewName('')
+            setNewNum('')
+            setTimeout(() => {
+              setNotification(`number of ${newName} is changed`)
+            }, 5000)
+          })
+          .catch(err => {
+            setNotification(`Information of ${newName} has already been removed from server`)
+          })
+      }
     } else {
       const newPerson = { name: newName, number: newNum }
 
@@ -57,6 +78,14 @@ const App = () => {
       })
       .catch(err => {
         console.log(err)
+      })
+  }
+
+  const handleReplace = id => {
+    personService
+      .updatePerson(id, newPerson)
+      .then(() => {
+        setPersons(persons.filter())
       })
   }
 
